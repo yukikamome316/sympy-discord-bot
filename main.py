@@ -151,7 +151,7 @@ async def help(ctx):
     embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/518582047661490192/518650251293229056/yuca500x500alpha.png")
     embed.add_field(name="Prefix", value=f"コマンドの最初に置く文字は``{prefix}``です。", inline=False)
     embed.add_field(name="hello", value=f"挨拶をしてくれます。", inline=False)
-    embed.add_field(name="calc", value=f"計算をしてくれます。使用例：``{prefix}calc 4 + 2`` | ``+``の部分を``-``に変えれば引き算、``*``に変えれば掛け算、``/``に変えれば割り算になります。", inline=False)
+    embed.add_field(name="calc", value=f"数式の演算をしてくれます。", inine=False)
     embed.add_field(name="poll", value=f"投票機能です。手軽に投票ができます。使用例：``{prefix}poll タイトル 選択肢１ 選択肢２``")
     embed.add_field(name="embed", value=f"埋め込みメッセージ機能です。使用例：``{prefix}embed タイトル 説明``")
     embed.add_field(name="game", value=f"プレイ中のゲームの表示を変更します。使用例：``{prefix}game 文字列``", inline=False)
