@@ -3,7 +3,6 @@ from discord.ext import commands
 from datetime import datetime
 
 prefix = '_'
-default = f'Prefix:{prefix} | by NaGisA & Moriumi'
 bot = commands.Bot(command_prefix=prefix)
 
 @bot.event
