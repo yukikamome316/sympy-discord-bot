@@ -111,15 +111,8 @@ async def ban(ctx, userName: discord.User):
     await ctx.send(f'{userName}をBanしました。')
 
 @bot.command()
-async def calc(ctx, x: int, s: str, y: int):
-    if s == '+':
-        await ctx.send(f'{x}+{y}の答えは{x+y}です。')
-    elif s == '-':
-        await ctx.send(f'{x}-{y}の答えは{x-y}です。')
-    elif s == '*':
-        await ctx.send(f'{x}×{y}の答えは{x*y}です。')
-    elif s == '/':
-        await ctx.send(f'{x}÷{y}の答えは{x/y}です。')
+async def calc(ctx,text:str):
+    await ctx.send(eval(text))
 
 @bot.command()
 async def game(ctx, playgame: str):
