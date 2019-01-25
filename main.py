@@ -1,13 +1,13 @@
 import discord
 from discord.ext import commands
 from datetime import datetime
-
+import 
 prefix = '$'
 bot = commands.Bot(command_prefix=prefix)
 
 @bot.event
 async def on_ready():
-    print('以下のユーザーとしてログインしました')
+    print('以下のユーザーとしてログインしまqした')
     print(bot.user.name)
     print(bot.user.id)
     print('------')
@@ -20,6 +20,29 @@ async def echo(ctx,text:str):
 @bot.command()
 async def calc(ctx,formula:str):
     await ctx.send(eval(formula))
+
+@bot.command()
+async def micalc(ctx,count:int):
+    for i in range(count):
+        value1 = random.randint(10)
+        value2 = random.randint(10)
+        signlist = ["+","-","*","/"]
+        value3 = random.choice(signlist)
+        calc = str(value1) + value3 + str(value2)
+        result = eval(calc)
+        await ctx.send(calc)
+        def pred(m):
+            return m.author == ctx.author and m.channel == ctx.channel
+
+        try:
+            msg = await ctx.wait_for('message', check=pred, timeout=60.0)
+        except asyncio.TimeoutError:
+            await ctx.send('(!)タイムアップです。')
+        else:
+            if msg == result:
+                pass
+        
+
 
 @bot.command()
 async def kick(ctx,user:discord.user,text:str):
