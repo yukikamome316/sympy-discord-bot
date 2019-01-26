@@ -3,15 +3,15 @@ from discord.ext import commands
 from datetime import *
 import numpy
 from sympy import *
-import asyncio
 import random
+import asyncio
 
 prefix = '$'
 bot = commands.Bot(command_prefix=prefix)
 
 @bot.event
 async def on_ready():
-    print('以下のユーザーとしてログインしまqした')
+    print('以下のユーザーとしてログインしました')
     print(bot.user.name)
     print(bot.user.id)
     print('------')
@@ -41,22 +41,24 @@ async def micalc(ctx,count:int):
         
         def check(m):
             return m.content == result
-
-        msg = await ctx.wait_for('message', check=check,)
-        await ctx.send()
-        
-
+        try:
+            msg = await ctx.wait_for('message',timeout=10.0,check=check)
+        except TimeoutError:
+            await ctx.send('けいさんおそーいw')
+        else:
+            pass
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def kick(ctx,user:discord.user,text:str):
+    await ctx.send(f'{user}さんをKickしたよ！ 理由:{text}')
     await ctx.guild.kick(user,reason=text)
-    await ctx.send(f'{user}をKickしました。理由:{reason}')
 
 @bot.command()
-async def ban(ctx,user:discord.user,text:str):
-    await ctx.guild.ban(user,reason=text)
-    await ctx.send(f'{user}をKickしました。理由:{reason}')
-
-
+@commands.has_permissions(administrator=True)
+async def ban(ctx, members: commands.Greedy[discord.Member],delete_days: typing.Optional[int] = 0, *,reason: str):
+    for member in members:
+        await ctx.send(f'{member}さんをBanしたよ！')
+        await member.ban(delete_message_days=delete_days, reason=reason)
 
 bot.run('NTM3ODc4MzAwMDczMjYzMTIy.DyrtQQ.wPe8Go3G9Mnvb5HjQPDfA3Vf0QA')
