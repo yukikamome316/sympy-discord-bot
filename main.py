@@ -5,6 +5,7 @@ import numpy
 from sympy import *
 import random
 import asyncio
+import typing
 
 prefix = '$'
 bot = commands.Bot(command_prefix=prefix)
@@ -50,15 +51,16 @@ async def micalc(ctx,count:int):
 
 @bot.command()
 @commands.has_permissions(administrator=True)
-async def kick(ctx,user:discord.user,text:str):
-    await ctx.send(f'{user}さんをKickしたよ！ 理由:{text}')
-    await ctx.guild.kick(user,reason=text)
+async def kick(ctx,members: commands.Greedy[discord.Member], *,reason:typing.Optional[str] = 0):
+    for member in members:
+        await ctx.send(f'{member.mention}さんをKickしたよ！ 理由:{reason}')
+        await member.kick(reason=reason)
 
 @bot.command()
 @commands.has_permissions(administrator=True)
 async def ban(ctx, members: commands.Greedy[discord.Member],delete_days: typing.Optional[int] = 0, *,reason: str):
     for member in members:
-        await ctx.send(f'{member}さんをBanしたよ！')
+        await ctx.send(f'{member.mention}さんをBanしたよ！')
         await member.ban(delete_message_days=delete_days, reason=reason)
 
 bot.run('NTM3ODc4MzAwMDczMjYzMTIy.DyrtQQ.wPe8Go3G9Mnvb5HjQPDfA3Vf0QA')
