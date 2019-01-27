@@ -3,6 +3,7 @@ from discord.ext import commands
 from datetime import *
 import numpy
 from sympy import *
+from sympy.parsing.sympy_parser import parse_expr
 import random
 import asyncio
 import typing
@@ -10,25 +11,28 @@ import typing
 prefix = '$'
 bot = commands.Bot(command_prefix=prefix)
 
+x,y,z = symbols("x y z")
+
 @bot.event
 async def on_ready():
     print('以下のユーザーとしてログインしました')
     print(bot.user.name)
     print(bot.user.id)
     print('------')
-    await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=f'Prefix {prefix} |This bot is developed'))
+    await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=f'Prefix {prefix} | made by Yuki'))
 
 @bot.command()
 async def echo(ctx,text:str):
     await ctx.send(text)
 
 @bot.command()
-async def calc(ctx,formula:str):
-    try:
-        await ctx.send(eval(str(formula)))
-    except Exception as e:
-        await ctx.send("(!)なにこれ\n" + e.args)
-
+async def math(ctx,mode:str,formula:str,variable:var=None):
+    if mode == "calc":
+        await ctx.send(str(parse_expr(formula)))
+    elif mode == "primef":
+        result = factorint(int(formula))
+        await ctx.send(result)
+        
 @bot.command()
 async def micalc(ctx,count:int):
     for i in range(count):
@@ -37,17 +41,7 @@ async def micalc(ctx,count:int):
         signlist = ["+","-","*","/"]
         value3 = random.choice(signlist)
         calc = str(value1) + value3 + str(value2)
-        result = eval(calc)
         await ctx.send(calc)
-        
-        def check(m):
-            return m.content == result
-        try:
-            msg = await ctx.wait_for('message',timeout=10.0,check=check)
-        except TimeoutError:
-            await ctx.send('けいさんおそーいw')
-        else:
-            pass
 
 @bot.command()
 @commands.has_permissions(administrator=True)
