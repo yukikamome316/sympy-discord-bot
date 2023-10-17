@@ -1,15 +1,25 @@
-import discord
-from discord.ext import commands
-from datetime import *
-import numpy
-from sympy import *
-from sympy.parsing.sympy_parser import parse_expr
+import os
 import random
 import asyncio
 import typing
 
+import discord
+from discord.ext import commands
+
+from datetime import *
+from sympy import *
+from sympy.parsing.sympy_parser import parse_expr
+from dotenv import load_dotenv
+
+load_dotenv()
+
+intents = discord.Intents.default()
+intents.message_content = True
+intents.members = True
+intents.message_content = True
+
 prefix = '$'
-bot = commands.Bot(command_prefix=prefix)
+bot = commands.Bot(command_prefix=prefix, intents=intents)
 
 x,y,z = symbols("x y z")
 
@@ -57,4 +67,4 @@ async def ban(ctx, members: commands.Greedy[discord.Member],delete_days: typing.
         await ctx.send(f'{member.mention}さんをBanしたよ！')
         await member.ban(delete_message_days=delete_days, reason=reason)
 
-bot.run('NTM3ODc4MzAwMDczMjYzMTIy.DyrtQQ.wPe8Go3G9Mnvb5HjQPDfA3Vf0QA')
+bot.run(os.environ.get("BOT_TOKEN"))
